@@ -112,9 +112,7 @@ class Discipline:
 
 
 if __name__ == "__main__":
-    donkey = Enemy("donkey", 2)
-    print(donkey.stats)
-
+    pass
 
 
 
