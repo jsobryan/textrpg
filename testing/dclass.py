@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import random
 def randstat():
     return random.randint(0,10)
@@ -29,10 +29,10 @@ class Equipment:
 @dataclass
 class Player:
     stats: Stats
-    equipment: list
-    disciplines: list
-    meals: int
-    crowns: int
+    equipment: list = field(default_factory=list)
+    disciplines: list = field(default_factory=list)
+    meals: int = 1
+    crowns: int = randstat()
 
     @property
     def base_stats(self):
@@ -52,7 +52,7 @@ class Enemy:
     name: str
     stats: Stats
     immunities: bool = False
-    mindforce: bool = False
+    special_skills: list = field(default_factory=list)
     
 @dataclass
 class Encounter:
@@ -76,7 +76,7 @@ class Encounter:
 
 
 ###example encounter###
-1
+#1
 # You must make haste for you sense it is not safe to linger by the smoking remains of the ruined monastery. The black-winged beasts could return at any moment. You must set out for the Sommlending capital of Holmgard and tell the King the terrible news of the massacre: that the whole of the Kai warriors, save yourself, have been slaughtered. Without the Kai Lords to lead her armies, Sommerlund will be at the mercy of their ancient enemy, the Darklords.
 # Fighting back tears, you bid farewell to your dead kinsmen. Silently, you promise that their deaths will be avenged. You turn away from the ruins and carefully descend the steep track.
 # At the foot of the hill, the path splits into two directions, both leading into a large wood.
@@ -90,9 +90,9 @@ class Encounter:
 @dataclass
 class Discipline:
     name: str
+    description: str = " "
 
-    @property
-    def namecheck(self, name):
+    def discipline_check(self, name):
         if name == "Weaponskill":
             x = randstat()
             weaponlist = ["Dagger","Spear","Mace","Short Sword","Warhammer","Sword","Axe","Sword","Quarterstaff","Broadsword"]
@@ -106,14 +106,11 @@ class Discipline:
         elif name == "Hunting":
             Encounter.meal_check = False
         elif name == "Mindshield":
-                Enemy.mindforce = False
-
-
-
+            if "Mindblast" in Enemy.special_skills:
+                Enemy.special_skills.remove("Mindblast")
 
 if __name__ == "__main__":
     pass
-
 
 
 
